@@ -52,9 +52,10 @@ export default function WithSubnavigation() {
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           <Text
+            sx={{ fontWeight: 'bold' }}
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
+            color={'black'}>
             Blogs
           </Text>
 
@@ -276,11 +277,11 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: 'Learn Design',
+    label: 'About',
     href: '#',
   },
   {
-    label: 'Hire Designers',
+    label: 'Contact',
     href: '#',
   },
 ];

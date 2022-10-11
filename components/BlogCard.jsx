@@ -28,6 +28,7 @@ export default function BlogCard() {
                     mb={6}
                     pos={'relative'}>
                     <Image
+                        alt=''
                         src=
                             '/blog.avif'
                         

@@ -7,9 +7,9 @@ const Blogs = () => {
   return (
     <Box p={20}>
       <Grid templateColumns="repeat(3, 1fr)" gap={10}>
-        {[1, 1, 1].map((e) => {
+        {[1, 1, 1].map((e,i) => {
           return (
-            <GridItem>
+            <GridItem key={i}>
               <BlogCard />
             </GridItem>
           );
@@ -18,5 +18,6 @@ const Blogs = () => {
     </Box>
   );
 };
+
 
 export default Blogs;
