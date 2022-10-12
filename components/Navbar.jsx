@@ -21,11 +21,11 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
-import NextLink from "next/link"
-
+import { useRouter } from 'next/router'
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+  const router = useRouter()
 
   return (
     <Box>
@@ -55,13 +55,12 @@ export default function WithSubnavigation() {
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
 
           <Text
+            onClick={() => router.push('/')}
             sx={{ fontWeight: 'bold' }}
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={'black'}>
-            <NextLink style={{ cursor: "pointer" }} href={'/'}>
-              Blogs
-            </NextLink>
+            Blogs
           </Text>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
@@ -108,6 +107,8 @@ const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
+  const router = useRouter()
+  let navigate = (route) => () => { router.push(route) }
 
   return (
     <Stack direction={'row'} spacing={4}>
@@ -116,6 +117,7 @@ const DesktopNav = () => {
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
               <Link
+                onClick={navigate(`${navItem.href}`)}
                 p={2}
                 fontSize={'sm'}
                 fontWeight={500}
@@ -124,9 +126,7 @@ const DesktopNav = () => {
                   textDecoration: 'none',
                   color: linkHoverColor,
                 }}>
-                <NextLink href={`${navItem.href}`}>
-                  {navItem.label}
-                </NextLink>
+                {navItem.label}
               </Link>
             </PopoverTrigger>
 
@@ -154,6 +154,8 @@ const DesktopNav = () => {
 };
 
 const DesktopSubNav = ({ label, href, subLabel }) => {
+  const router = useRouter()
+
   return (
     <Link
       role={'group'}
@@ -161,35 +163,35 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
       p={2}
       rounded={'md'}
       _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
-      <NextLink href={`${href}`}>
 
-        <Stack direction={'row'} align={'center'}>
-          <Box>
-            <Text
-              transition={'all .3s ease'}
-              _groupHover={{ color: 'pink.400' }}
-              fontWeight={500}>
-              {label}
-            </Text>
-            <Text fontSize={'sm'}>{subLabel}</Text>
-          </Box>
-          <Flex
+      <Stack onClick={() => router.push(href)} direction={'row'} align={'center'}>
+        <Box>
+          <Text
             transition={'all .3s ease'}
-            transform={'translateX(-10px)'}
-            opacity={0}
-            _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-            justify={'flex-end'}
-            align={'center'}
-            flex={1}>
-            <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
-          </Flex>
-        </Stack>
-      </NextLink>
+            _groupHover={{ color: 'pink.400' }}
+            fontWeight={500}>
+            {label}
+          </Text>
+          <Text fontSize={'sm'}>{subLabel}</Text>
+        </Box>
+        <Flex
+          transition={'all .3s ease'}
+          transform={'translateX(-10px)'}
+          opacity={0}
+          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
+          justify={'flex-end'}
+          align={'center'}
+          flex={1}>
+          <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
+        </Flex>
+      </Stack>
     </Link>
   );
 };
 
 const MobileNav = () => {
+  const router = useRouter()
+
   return (
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
@@ -204,6 +206,7 @@ const MobileNav = () => {
 
 const MobileNavItem = ({ label, children, href }) => {
   const { isOpen, onToggle } = useDisclosure();
+  const router = useRouter()
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -216,13 +219,12 @@ const MobileNavItem = ({ label, children, href }) => {
         _hover={{
           textDecoration: 'none',
         }}>
-        <NextLink href={href ?? '#'}>
-          <Text
-            fontWeight={600}
-            color={useColorModeValue('gray.600', 'gray.200')}>
-            {label}
-          </Text>
-        </NextLink>
+        <Text
+          onClick={() => router.push(href)}
+          fontWeight={600}
+          color={useColorModeValue('gray.600', 'gray.200')}>
+          {label}
+        </Text>
         {children && (
           <Icon
             as={ChevronDownIcon}
@@ -244,10 +246,8 @@ const MobileNavItem = ({ label, children, href }) => {
           align={'start'}>
           {children &&
             children.map((child, i) => (
-              <Link py={2} key={i}>
-                <NextLink href={child.href} key={child.label} >
-                  {child.label}
-                </NextLink>
+              <Link py={2} key={i} onClick={() => router.push(child.href)}>
+                {child.label}
               </Link>
             ))}
         </Stack>
