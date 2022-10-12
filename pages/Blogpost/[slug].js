@@ -63,7 +63,7 @@ export const BlogAuthor = (props) => {
 const BlogContent = () => {
   return (
     <Container
-      maxWidth={`${document.body.offsetWidth}px`}
+      maxWidth={`1240px`}
       justifyContent={"center"}
       p="12"
     >
