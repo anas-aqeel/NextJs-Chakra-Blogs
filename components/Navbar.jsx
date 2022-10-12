@@ -21,6 +21,8 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
+import NextLink from "next/link"
+
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -51,12 +53,15 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+
           <Text
             sx={{ fontWeight: 'bold' }}
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={'black'}>
-            Blogs
+            <NextLink style={{ cursor: "pointer" }} href={'/'}>
+              Blogs
+            </NextLink>
           </Text>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
@@ -112,7 +117,6 @@ const DesktopNav = () => {
             <PopoverTrigger>
               <Link
                 p={2}
-                href={navItem.href ?? '#'}
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
@@ -120,7 +124,9 @@ const DesktopNav = () => {
                   textDecoration: 'none',
                   color: linkHoverColor,
                 }}>
-                {navItem.label}
+                <NextLink href={`${navItem.href}`}>
+                  {navItem.label}
+                </NextLink>
               </Link>
             </PopoverTrigger>
 
@@ -141,41 +147,44 @@ const DesktopNav = () => {
             )}
           </Popover>
         </Box>
-      ))}
-    </Stack>
+      ))
+      }
+    </Stack >
   );
 };
 
 const DesktopSubNav = ({ label, href, subLabel }) => {
   return (
     <Link
-      href={href}
       role={'group'}
       display={'block'}
       p={2}
       rounded={'md'}
       _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text
+      <NextLink href={`${href}`}>
+
+        <Stack direction={'row'} align={'center'}>
+          <Box>
+            <Text
+              transition={'all .3s ease'}
+              _groupHover={{ color: 'pink.400' }}
+              fontWeight={500}>
+              {label}
+            </Text>
+            <Text fontSize={'sm'}>{subLabel}</Text>
+          </Box>
+          <Flex
             transition={'all .3s ease'}
-            _groupHover={{ color: 'pink.400' }}
-            fontWeight={500}>
-            {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
-          opacity={0}
-          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}>
-          <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
+            transform={'translateX(-10px)'}
+            opacity={0}
+            _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
+            justify={'flex-end'}
+            align={'center'}
+            flex={1}>
+            <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
+          </Flex>
+        </Stack>
+      </NextLink>
     </Link>
   );
 };
@@ -201,17 +210,19 @@ const MobileNavItem = ({ label, children, href }) => {
       <Flex
         py={2}
         as={Link}
-        href={href ?? '#'}
+        // href={href ?? '#'}
         justify={'space-between'}
         align={'center'}
         _hover={{
           textDecoration: 'none',
         }}>
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}>
-          {label}
-        </Text>
+        <NextLink href={href ?? '#'}>
+          <Text
+            fontWeight={600}
+            color={useColorModeValue('gray.600', 'gray.200')}>
+            {label}
+          </Text>
+        </NextLink>
         {children && (
           <Icon
             as={ChevronDownIcon}
@@ -232,9 +243,11 @@ const MobileNavItem = ({ label, children, href }) => {
           borderColor={useColorModeValue('gray.200', 'gray.700')}
           align={'start'}>
           {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
+            children.map((child, i) => (
+              <Link py={2} key={i}>
+                <NextLink href={child.href} key={child.label} >
+                  {child.label}
+                </NextLink>
               </Link>
             ))}
         </Stack>
@@ -248,6 +261,8 @@ const MobileNavItem = ({ label, children, href }) => {
 const NAV_ITEMS = [
   {
     label: 'Inspiration',
+    href: '#',
+
     children: [
       {
         label: 'Explore Design Work',
@@ -262,26 +277,27 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: 'Find Work',
+    label: 'Blogs',
+    href: '#',
     children: [
       {
-        label: 'Job Board',
-        subLabel: 'Find your dream design job',
-        href: '#',
+        label: 'Latest Blogs',
+        subLabel: 'Find our latest trendy blogposts',
+        href: '/blogs',
       },
       {
-        label: 'Freelance Projects',
-        subLabel: 'An exclusive list for contract work',
-        href: '#',
+        label: 'Popular Blogs',
+        subLabel: 'Our popular blogs',
+        href: '/blogs',
       },
     ],
   },
   {
     label: 'About',
-    href: '#',
+    href: '/about',
   },
   {
     label: 'Contact',
-    href: '#',
+    href: '/contact',
   },
 ];

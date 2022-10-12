@@ -1,4 +1,4 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 import {
     Box,
     Center,
@@ -27,12 +27,12 @@ export default function BlogCard() {
                     mx={-6}
                     mb={6}
                     pos={'relative'}>
-                    <Image
+                    <img
                         alt=''
                         src=
-                            '/blog.avif'
-                        
-                        layout={'fill'}
+                        '/blog.avif'
+
+                    // layout={'fill'}
                     />
                 </Box>
                 <Stack>
